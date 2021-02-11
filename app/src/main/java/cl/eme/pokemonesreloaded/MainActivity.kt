@@ -2,6 +2,7 @@ package cl.eme.pokemonesreloaded
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
 
 
@@ -12,12 +13,13 @@ import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
  *      [ ] actualizar Activities y fragments con viewBinding
  * [X] MainActivity
  *      [X] fragment container view
- * [ ] consumo de API
- *      [ ] permiso de internet
- *      [ ] dependencias retrofit
- *      [ ] pojos
- *      [ ] interfaz de operaciones
- *      [ ] cliente retrofit
+ * [X] consumo de API
+ *      [X] permiso de internet
+ *      [X] clearTextTraffic si es https
+ *      [X] dependencias retrofit
+ *      [X] pojos
+ *      [X] interfaz de operaciones
+ *      [X] cliente retrofit
  * [ ] ViewModel
  * [ ] Listado
  *      [ ] Fragmento de listado
@@ -37,11 +39,14 @@ import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
  */
 
 class MainActivity : AppCompatActivity() {
+
+    val pokeVM : PokeViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        pokeVM.getPokemones()
     }
 }
