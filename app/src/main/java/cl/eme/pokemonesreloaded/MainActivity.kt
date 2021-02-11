@@ -2,15 +2,22 @@ package cl.eme.pokemonesreloaded
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
 
 
 /**
- * [ ] Control de versiones
- * [ ] view binding
- *      [ ] activar
+ * [X] Control de versiones
+ * [X] view binding
+ *      [X] activar (build.gradle app)
  *      [ ] actualizar Activities y fragments con viewBinding
- * [ ] MainActivity
- *      [ ] fragment container view
+ * [X] MainActivity
+ *      [X] fragment container view
+ * [ ] consumo de API
+ *      [ ] permiso de internet
+ *      [ ] dependencias retrofit
+ *      [ ] pojos
+ *      [ ] interfaz de operaciones
+ *      [ ] cliente retrofit
  * [ ] ViewModel
  * [ ] Listado
  *      [ ] Fragmento de listado
@@ -18,12 +25,6 @@ import android.os.Bundle
  *      [ ] recycler view
  *      [ ] Viewholder
  *      [ ] adapter
- * [ ] consumo de API
- *     [ ] dependencias retrofit
- *     [ ] pojos
- *     [ ] interfaz de operaciones
- *     [ ] cliente retrofit
- *
  * [ ] detalle
  *      [ ] fragmento de detalle
  *      [ ] layout
@@ -38,6 +39,9 @@ import android.os.Bundle
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
     }
 }
