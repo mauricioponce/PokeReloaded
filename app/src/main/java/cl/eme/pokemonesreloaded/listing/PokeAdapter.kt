@@ -1,5 +1,6 @@
 package cl.eme.pokemonesreloaded.listing
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -18,8 +19,10 @@ class PokeAdapter: RecyclerView.Adapter<PokeVH>() {
 
     override fun onBindViewHolder(holder: PokeVH, position: Int) {
         val poke = pokelist[position]
-
         holder.bind(poke)
+        holder.itemView.setOnClickListener {
+            Log.d("PokeAdapter", "elemento seleccionado $poke")
+        }
     }
 
     override fun getItemCount() = pokelist.size
