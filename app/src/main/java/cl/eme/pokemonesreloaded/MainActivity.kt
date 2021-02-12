@@ -20,13 +20,15 @@ import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
  *      [X] pojos
  *      [X] interfaz de operaciones
  *      [X] cliente retrofit
- * [ ] ViewModel
+ * [X] ViewModel
  * [ ] Listado
- *      [ ] Fragmento de listado
- *      [ ] layout
- *      [ ] recycler view
- *      [ ] Viewholder
- *      [ ] adapter
+ *      [X] Fragmento de listado
+ *      [X] layout
+ *      [X] recycler view
+ *      [X] adapter
+ *      [X] Viewholder
+ *      [X] item layout
+ *      [ ] enlazar las piezas
  * [ ] detalle
  *      [ ] fragmento de detalle
  *      [ ] layout

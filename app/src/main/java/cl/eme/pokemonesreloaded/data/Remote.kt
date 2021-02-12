@@ -6,10 +6,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 //https://lapi-pokemon.herokuapp.com/pokemon
 //https://lapi-pokemon.herokuapp.com/pokemon/1
-/*
-*
-
- */
 
 interface PokeAPI {
     @GET("pokemon")
