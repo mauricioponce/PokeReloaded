@@ -14,7 +14,7 @@ import cl.eme.pokemonesreloaded.R
 import cl.eme.pokemonesreloaded.databinding.FragmentListingBinding
 import cl.eme.pokemonesreloaded.detail.DetailFragment
 
-class ListingFragment: Fragment() {
+class ListingFragment : Fragment() {
 
     private lateinit var binding: FragmentListingBinding
 
@@ -43,7 +43,8 @@ class ListingFragment: Fragment() {
 
             pokeViewModel.setSelected(it)
 
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_container, DetailFragment())?.commit()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.main_container, DetailFragment())?.addToBackStack("detail")?.commit()
         })
 
 
