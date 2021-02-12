@@ -21,17 +21,20 @@ import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
  *      [X] interfaz de operaciones
  *      [X] cliente retrofit
  * [X] ViewModel
- * [ ] Listado
+ * [X] Listado
  *      [X] Fragmento de listado
  *      [X] layout
  *      [X] recycler view
  *      [X] adapter
  *      [X] Viewholder
  *      [X] item layout
- *      [ ] enlazar las piezas
+ *      [X] enlazar las piezas
+ *      [ ] onclick en un elemento de listado
  * [ ] detalle
- *      [ ] fragmento de detalle
- *      [ ] layout
+ *      [X] fragmento de detalle
+ *      [X] layout
+ *      [X] viewBinding
+ *      [ ] observar la info del pokemon para detalle
  *      [ ] consumo de imágenes
  *
  * [ ] ROOM

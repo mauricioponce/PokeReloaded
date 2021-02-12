@@ -10,7 +10,9 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import cl.eme.pokemonesreloaded.PokeViewModel
+import cl.eme.pokemonesreloaded.R
 import cl.eme.pokemonesreloaded.databinding.FragmentListingBinding
+import cl.eme.pokemonesreloaded.detail.DetailFragment
 
 class ListingFragment: Fragment() {
 
@@ -34,6 +36,14 @@ class ListingFragment: Fragment() {
         pokeViewModel.pokelist().observe(viewLifecycleOwner, {
             Log.d("ListingFragment", "actualizando info de pokemons ${it.size}")
             adapter.update(it)
+        })
+
+        adapter.selectedItem().observe(viewLifecycleOwner, {
+            Log.d("ListingFragment", "elemento seleccionado $it")
+
+            pokeViewModel.setSelected(it)
+
+            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_container, DetailFragment())?.commit()
         })
 
 

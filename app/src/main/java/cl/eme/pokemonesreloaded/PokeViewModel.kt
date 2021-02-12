@@ -30,4 +30,13 @@ class PokeViewModel : ViewModel() {
             }
         }
     }
+
+
+    private lateinit var selected : Pokemon
+
+    fun setSelected(pokemon: Pokemon) {
+        selected = pokemon
+    }
+
+    fun getSelected() = selected
 }
