@@ -4,12 +4,17 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
+
 //https://lapi-pokemon.herokuapp.com/pokemon
 //https://lapi-pokemon.herokuapp.com/pokemon/1
 
 interface PokeAPI {
     @GET("pokemon")
     suspend fun getPokemones(): Response<List<Pokemon>>
+
+    @GET("pokemon/{pid}")
+    suspend fun getPokemon(@Path("pid") id: String): Response<PokemonDetail>
 }
 
 class RetrofitClient {

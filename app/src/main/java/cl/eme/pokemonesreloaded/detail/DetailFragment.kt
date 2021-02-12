@@ -27,6 +27,14 @@ class DetailFragment: Fragment() {
         val pokemon = pokeViewModel.getSelected()
         Log.d("DetailFragment", "$pokemon")
 
+
+        pokeViewModel.getDetail(pokemon.id)
+
+        pokeViewModel.getDetail().observe(viewLifecycleOwner, {
+            binding.tvName.text = it.name
+            binding.tvPokeId.text = it.id
+        })
+
         return binding.root
     }
 }
