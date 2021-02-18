@@ -9,6 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import cl.eme.pokemonesreloaded.PokeViewModel
 import cl.eme.pokemonesreloaded.databinding.FragmentDetailBinding
+import coil.load
+import coil.transform.CircleCropTransformation
+import coil.transform.GrayscaleTransformation
 
 class DetailFragment: Fragment() {
 
@@ -33,6 +36,7 @@ class DetailFragment: Fragment() {
         pokeViewModel.getDetail().observe(viewLifecycleOwner, {
             binding.tvName.text = it.name
             binding.tvPokeId.text = it.id
+            binding.ivPoke.load(it.img)
         })
 
         return binding.root

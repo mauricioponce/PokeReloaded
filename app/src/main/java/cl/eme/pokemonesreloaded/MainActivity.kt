@@ -5,12 +5,11 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
 
-
 /**
  * [X] Control de versiones
  * [X] view binding
  *      [X] activar (build.gradle app)
- *      [ ] actualizar Activities y fragments con viewBinding
+ *      [X] actualizar Activities y fragments con viewBinding
  * [X] MainActivity
  *      [X] fragment container view
  * [X] consumo de API
@@ -34,8 +33,8 @@ import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
  *      [X] fragmento de detalle
  *      [X] layout
  *      [X] viewBinding
- *      [ ] observar la info del pokemon para detalle
- *      [ ] consumo de imágenes
+ *      [X] observar la info del pokemon para detalle
+ *      [X] consumo de imágenes
  *
  * [ ] ROOM
  *      [ ] interfaz de operaciones (DAO)
