@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import cl.eme.pokemonesreloaded.data.Pokemon
+import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.databinding.PokeItemBinding
 
 class PokeAdapter: RecyclerView.Adapter<PokeVH>() {

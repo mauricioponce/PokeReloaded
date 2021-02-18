@@ -10,8 +10,6 @@ import androidx.fragment.app.activityViewModels
 import cl.eme.pokemonesreloaded.PokeViewModel
 import cl.eme.pokemonesreloaded.databinding.FragmentDetailBinding
 import coil.load
-import coil.transform.CircleCropTransformation
-import coil.transform.GrayscaleTransformation
 
 class DetailFragment: Fragment() {
 
@@ -31,7 +29,7 @@ class DetailFragment: Fragment() {
         Log.d("DetailFragment", "$pokemon")
 
 
-        pokeViewModel.getDetail(pokemon.id)
+        pokeViewModel.consumeDetail(pokemon.id)
 
         pokeViewModel.getDetail().observe(viewLifecycleOwner, {
             binding.tvName.text = it.name

@@ -1,5 +1,7 @@
-package cl.eme.pokemonesreloaded.data
+package cl.eme.pokemonesreloaded.data.remote
 
+import cl.eme.pokemonesreloaded.data.pojo.Pokemon
+import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

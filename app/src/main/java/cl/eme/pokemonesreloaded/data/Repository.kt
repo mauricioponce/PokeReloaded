@@ -3,8 +3,9 @@ package cl.eme.pokemonesreloaded.data
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
+import cl.eme.pokemonesreloaded.data.pojo.Pokemon
+import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
+import cl.eme.pokemonesreloaded.data.remote.RetrofitClient
 
 class Repository {
 
@@ -29,7 +30,6 @@ class Repository {
     }
 
     suspend fun getDetail(id: String) {
-
         // parchamos por culpa de API "·$"·$"%·!
         val pid = id.replace("#", "").toInt() - 1
 
@@ -43,6 +43,5 @@ class Repository {
         } else {
             Log.d("PokeViewModel", "epa! error en el detalle ${response.code()}")
         }
-
     }
 }
