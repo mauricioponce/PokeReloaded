@@ -1,6 +1,7 @@
 package cl.eme.pokemonesreloaded.data
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -38,14 +39,6 @@ class Repository {
         }
     }
 
-    private fun api2db(pokemon: Pokemon): PokemonEntity {
-        return PokemonEntity(pokemon.id, pokemon.name, pokemon.img)
-    }
-
-    private fun db2api(pokemonEntity: PokemonEntity): Pokemon {
-        return Pokemon(pokemonEntity.id, pokemonEntity.name, pokemonEntity.img)
-    }
-
     suspend fun getDetail(id: String) {
         // parchamos por culpa de API "·$"·$"%·!
         val pid = id.replace("#", "").toInt() - 1
@@ -61,4 +54,12 @@ class Repository {
             Log.d("PokeViewModel", "epa! error en el detalle ${response.code()}")
         }
     }
+}
+
+fun api2db(pokemon: Pokemon): PokemonEntity {
+    return PokemonEntity(pokemon.id, pokemon.img, pokemon.name)
+}
+
+fun db2api(pokemonEntity: PokemonEntity): Pokemon {
+    return Pokemon(pokemonEntity.id, pokemonEntity.img, pokemonEntity.name)
 }
