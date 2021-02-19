@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import cl.eme.pokemonesreloaded.data.db.PokeApplication
+import cl.eme.pokemonesreloaded.data.db.PokemonDetailEntity
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
@@ -19,8 +20,10 @@ class Repository {
         it.map { entity -> db2api(entity) }
     }
 
-    private val detail = MutableLiveData<PokemonDetail>()
-    fun getDetail(): LiveData<PokemonDetail> = detail
+
+    fun getDetailFromDB(pid: String): LiveData<PokemonDetail> = Transformations.map(pokeDB.getPokemon(pid)) {
+        it?.let { db2api(it) }
+    }
 
     suspend fun getPokemones() {
         val response = RetrofitClient.retrofitInstance().getPokemones()
@@ -49,7 +52,10 @@ class Repository {
         Log.d("PokeViewModel", response.body().toString())
 
         if (response.isSuccessful) {
-            detail.value = response.body()
+            response.body()?.let { detail ->
+                pokeDB.insertDetail(api2db(detail))
+            }
+
         } else {
             Log.d("PokeViewModel", "epa! error en el detalle ${response.code()}")
         }
@@ -62,4 +68,12 @@ fun api2db(pokemon: Pokemon): PokemonEntity {
 
 fun db2api(pokemonEntity: PokemonEntity): Pokemon {
     return Pokemon(pokemonEntity.id, pokemonEntity.img, pokemonEntity.name)
+}
+
+fun api2db(detail: PokemonDetail): PokemonDetailEntity {
+    return PokemonDetailEntity(detail.id, detail.img, detail.name, detail.labels)
+}
+
+fun db2api(detail: PokemonDetailEntity): PokemonDetail {
+    return PokemonDetail(detail.id, detail.img, detail.name, detail.labels)
 }

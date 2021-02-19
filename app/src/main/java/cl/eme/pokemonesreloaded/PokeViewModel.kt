@@ -21,7 +21,7 @@ class PokeViewModel : ViewModel() {
     }
 
     // cuando te llegue el resultado, yo voy a ....
-    fun getDetail(): LiveData<PokemonDetail> = repository.getDetail()
+    fun getDetail(id: String): LiveData<PokemonDetail> = repository.getDetailFromDB(id)
 
     // consume o anda a buscar el valor para este ID
     fun consumeDetail(id: String) {

@@ -11,7 +11,7 @@ import cl.eme.pokemonesreloaded.PokeViewModel
 import cl.eme.pokemonesreloaded.databinding.FragmentDetailBinding
 import coil.load
 
-class DetailFragment: Fragment() {
+class DetailFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailBinding
 
@@ -28,13 +28,16 @@ class DetailFragment: Fragment() {
         val pokemon = pokeViewModel.getSelected()
         Log.d("DetailFragment", "$pokemon")
 
-
+        // carga la info de la API en la DB
         pokeViewModel.consumeDetail(pokemon.id)
 
-        pokeViewModel.getDetail().observe(viewLifecycleOwner, {
-            binding.tvName.text = it.name
-            binding.tvPokeId.text = it.id
-            binding.ivPoke.load(it.img)
+        // Escucha por nueva info desde la DB
+        pokeViewModel.getDetail(pokemon.id).observe(viewLifecycleOwner, {
+            it?.let {
+                binding.tvName.text = it.name
+                binding.tvPokeId.text = it.id
+                binding.ivPoke.load(it.img)
+            }
         })
 
         return binding.root
