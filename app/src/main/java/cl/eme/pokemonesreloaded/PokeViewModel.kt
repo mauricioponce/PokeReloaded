@@ -5,13 +5,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import cl.eme.pokemonesreloaded.data.Repository
+import cl.eme.pokemonesreloaded.data.datasources.LocalDataSource
+import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSource
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
 import kotlinx.coroutines.launch
 
 class PokeViewModel : ViewModel() {
 
-    private val repository = Repository()
+    private val repository = Repository(LocalDataSource(), RemoteDataSource())
+
     fun pokelist() : LiveData<List<Pokemon>> = repository.pokelist()
 
     fun getPokemones() {

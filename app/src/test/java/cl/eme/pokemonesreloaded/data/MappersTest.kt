@@ -3,10 +3,9 @@ package cl.eme.pokemonesreloaded.data
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import com.google.common.truth.Truth.assertThat
-import org.junit.Before
 import org.junit.Test
 
-class RepositoryTest  {
+class MappersTest  {
 
 
     @Test
