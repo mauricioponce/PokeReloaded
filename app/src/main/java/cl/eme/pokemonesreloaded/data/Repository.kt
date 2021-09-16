@@ -6,27 +6,27 @@ import cl.eme.pokemonesreloaded.data.datasources.LocalDataSource
 import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSource
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.mapLatest
 
 class Repository(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ) {
 
-    fun pokelist(): LiveData<List<Pokemon>> = Transformations.map(localDataSource.getPokemones()) {
-        it.map { entity -> db2api(entity) }
-    }
+    fun pokelist(): Flow<List<Pokemon>> = localDataSource.getPokemones().mapLatest { it.map { entity -> db2api(entity) } }
 
     fun getDetailFromDB(pid: String): LiveData<PokemonDetail> = Transformations.map(localDataSource.getPokemon(pid)) {
         it?.let { db2api(it) }
     }
 
-    suspend fun getPokemones() {
+    suspend fun fetchPokemones() {
         val pokeList = remoteDataSource.getPokemones()
         val map = pokeList.map { poke -> api2db(poke) }
         localDataSource.insertPokemons(map)
     }
 
-    suspend fun getDetail(id: String) {
+    suspend fun fetchDetail(id: String) {
         val detail = remoteDataSource.getDetail(id)
         detail?.let {
             val r = api2db(it)

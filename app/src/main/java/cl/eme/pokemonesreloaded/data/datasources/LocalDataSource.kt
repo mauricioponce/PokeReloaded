@@ -4,11 +4,12 @@ import androidx.lifecycle.LiveData
 import cl.eme.pokemonesreloaded.data.db.PokeApplication
 import cl.eme.pokemonesreloaded.data.db.PokemonDetailEntity
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
+import kotlinx.coroutines.flow.Flow
 
 class LocalDataSource {
     private val pokeDB = PokeApplication.pokeDb!!.pokeDao()
 
-    fun getPokemones(): LiveData<List<PokemonEntity>> = pokeDB.getPokemones()
+    fun getPokemones(): Flow<List<PokemonEntity>> = pokeDB.getPokemones()
 
     fun getPokemon(pid: String): LiveData<PokemonDetailEntity> = pokeDB.getPokemon(pid)
 

@@ -2,6 +2,7 @@ package cl.eme.pokemonesreloaded
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 
 import cl.eme.pokemonesreloaded.data.Repository
@@ -15,11 +16,11 @@ class PokeViewModel : ViewModel() {
 
     private val repository = Repository(LocalDataSource(), RemoteDataSource())
 
-    fun pokelist() : LiveData<List<Pokemon>> = repository.pokelist()
+    fun pokelist() : LiveData<List<Pokemon>> = repository.pokelist().asLiveData()
 
     fun getPokemones() {
         viewModelScope.launch {
-            repository.getPokemones()
+            repository.fetchPokemones()
         }
     }
 
@@ -29,7 +30,7 @@ class PokeViewModel : ViewModel() {
     // consume o anda a buscar el valor para este ID
     fun consumeDetail(id: String) {
         viewModelScope.launch {
-            repository.getDetail(id)
+            repository.fetchDetail(id)
         }
     }
 
