@@ -80,7 +80,7 @@ class RepositoryTest {
 
 
     @Test
-    fun `getPokemones error`(): Unit = runBlocking {
+    fun `getPokemones error at remote datasource`(): Unit = runBlocking {
         // given
         val entitiesList = listOf(expectedPokemonEntity)
 
