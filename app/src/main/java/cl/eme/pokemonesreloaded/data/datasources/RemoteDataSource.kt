@@ -5,9 +5,14 @@ import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
 import cl.eme.pokemonesreloaded.data.remote.RetrofitClient
 
-class RemoteDataSource {
+interface RemoteDataSource {
+    suspend fun fetchPokemones(): List<Pokemon>
 
-    suspend fun getPokemones(): List<Pokemon> {
+    suspend fun fetchDetail(id: String): PokemonDetail?
+}
+
+class RemoteDataSourceImp: RemoteDataSource {
+    override suspend fun fetchPokemones(): List<Pokemon> {
         val response = RetrofitClient.retrofitInstance().getPokemones()
 
         val a = with(response) {
@@ -27,7 +32,7 @@ class RemoteDataSource {
         return a!!
     }
 
-    suspend fun getDetail(id: String): PokemonDetail? {
+    override suspend fun fetchDetail(id: String): PokemonDetail? {
         // parchamos por culpa de API "·$"·$"%·!
         val pid = id.replace("#", "").toInt() - 1
 

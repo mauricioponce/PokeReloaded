@@ -6,15 +6,15 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 
 import cl.eme.pokemonesreloaded.data.Repository
-import cl.eme.pokemonesreloaded.data.datasources.LocalDataSource
-import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSource
+import cl.eme.pokemonesreloaded.data.datasources.LocalDataSourceImp
+import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSourceImp
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
 import kotlinx.coroutines.launch
 
 class PokeViewModel : ViewModel() {
 
-    private val repository = Repository(LocalDataSource(), RemoteDataSource())
+    private val repository = Repository(LocalDataSourceImp(), RemoteDataSourceImp())
 
     fun pokelist() : LiveData<List<Pokemon>> = repository.pokelist().asLiveData()
 
@@ -24,10 +24,8 @@ class PokeViewModel : ViewModel() {
         }
     }
 
-    // cuando te llegue el resultado, yo voy a ....
-    fun getDetail(id: String): LiveData<PokemonDetail> = repository.getDetailFromDB(id)
+    fun getDetail(id: String): LiveData<PokemonDetail> = repository.getDetail(id)
 
-    // consume o anda a buscar el valor para este ID
     fun consumeDetail(id: String) {
         viewModelScope.launch {
             repository.fetchDetail(id)

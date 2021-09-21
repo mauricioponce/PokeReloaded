@@ -5,6 +5,7 @@ import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSource
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth.assertWithMessage
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -24,23 +25,27 @@ class RepositoryTest {
     @MockK
     lateinit var remoteDataSource: RemoteDataSource
 
+    private val expectedPokemon = Pokemon("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1")
+    private val expectedPokemonEntity = PokemonEntity("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1")
+
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
         repository = Repository(localDataSource, remoteDataSource)
+
+        coEvery { localDataSource.insertPokemons(any()) } returns Unit
     }
 
     @Test
     fun `getPokemones happy case`() = runBlocking {
         // given
-        val expectedList = listOf(Pokemon("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1"))
-        val entitiesList = listOf(PokemonEntity("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1"))
+        val expectedList = listOf(expectedPokemon)
+        val entitiesList = listOf(expectedPokemonEntity)
 
         coEvery { localDataSource.getPokemones() } returns flow { emit(entitiesList) }
-        coEvery { remoteDataSource.getPokemones() } returns expectedList
-        coEvery { localDataSource.insertPokemons(any()) } returns Unit
+        coEvery { remoteDataSource.fetchPokemones() } returns expectedList
 
         // when
         repository.fetchPokemones()
@@ -58,9 +63,9 @@ class RepositoryTest {
         // given
         val expectedList = emptyList<Pokemon>()
 
-        coEvery { remoteDataSource.getPokemones() } returns expectedList
+        coEvery { remoteDataSource.fetchPokemones() } returns expectedList
         coEvery { localDataSource.getPokemones() } returns flow { emit(emptyList<PokemonEntity>()) }
-        coEvery { localDataSource.insertPokemons(any()) } returns Unit
+
 
         // when
         repository.fetchPokemones()
@@ -75,22 +80,22 @@ class RepositoryTest {
 
 
     @Test
-    fun `getPokemones error`() = runBlocking {
+    fun `getPokemones error`(): Unit = runBlocking {
         // given
-        val expectedList = listOf(Pokemon("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1"))
-        val entitiesList = listOf(PokemonEntity("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1"))
+        val entitiesList = listOf(expectedPokemonEntity)
 
         coEvery { localDataSource.getPokemones() } returns flow { emit(entitiesList) }
-        coEvery { remoteDataSource.getPokemones() } throws Exception()
-        coEvery { localDataSource.insertPokemons(any()) } returns Unit
+        coEvery { remoteDataSource.fetchPokemones() } throws Exception()
 
         // when
-        runCatching { repository.fetchPokemones() }
+        runCatching { repository.fetchPokemones() }.onFailure {
+            assertWithMessage("Failure from sources is not supported").that(false) }
+            .onSuccess { // then
+                repository.pokelist().collect {
+                    assertThat(it).isNotNull()
+                    assertThat(it).hasSize(1)
+                }
+            }
 
-        // then
-        repository.pokelist().collect {
-            assertThat(it).isNotNull()
-            assertThat(it).hasSize(1)
-        }
     }
 }
