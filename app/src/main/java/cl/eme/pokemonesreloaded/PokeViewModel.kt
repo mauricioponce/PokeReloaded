@@ -10,6 +10,7 @@ import cl.eme.pokemonesreloaded.data.datasources.LocalDataSourceImp
 import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSourceImp
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class PokeViewModel : ViewModel() {
@@ -24,7 +25,7 @@ class PokeViewModel : ViewModel() {
         }
     }
 
-    fun getDetail(id: String): LiveData<PokemonDetail> = repository.getDetail(id)
+    fun getDetail(id: String): LiveData<PokemonDetail> = repository.getDetail(id).asLiveData()
 
     fun consumeDetail(id: String) {
         viewModelScope.launch {

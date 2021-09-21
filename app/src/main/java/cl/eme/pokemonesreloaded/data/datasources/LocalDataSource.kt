@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface LocalDataSource {
     fun getPokemones(): Flow<List<PokemonEntity>>
 
-    fun getPokemon(pid: String): LiveData<PokemonDetailEntity>
+    fun getPokemon(pid: String): Flow<PokemonDetailEntity>
 
     suspend fun insertDetail(detail: PokemonDetailEntity)
 
@@ -21,7 +21,7 @@ class LocalDataSourceImp : LocalDataSource{
 
     override fun getPokemones(): Flow<List<PokemonEntity>> = pokeDB.getPokemones()
 
-    override fun getPokemon(pid: String): LiveData<PokemonDetailEntity> = pokeDB.getPokemon(pid)
+    override fun getPokemon(pid: String): Flow<PokemonDetailEntity> = pokeDB.getPokemon(pid)
 
     override suspend fun insertDetail(detail: PokemonDetailEntity) = pokeDB.insertDetail(detail)
 

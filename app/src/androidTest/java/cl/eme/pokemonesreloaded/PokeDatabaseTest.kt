@@ -10,6 +10,7 @@ import cl.eme.pokemonesreloaded.data.db.PokeDAO
 import cl.eme.pokemonesreloaded.data.db.PokeDatabase
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 
@@ -56,7 +57,7 @@ class PokeDatabaseTest {
         pokeDAO.insertPokemones(pokeList)
 
         // Then
-        pokeDAO.getPokemones().observeForever {
+        pokeDAO.getPokemones().collect {
             assertThat(it).isNotNull()
             assertThat(it).isEmpty()
         }

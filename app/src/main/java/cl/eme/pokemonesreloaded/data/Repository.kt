@@ -16,8 +16,8 @@ class Repository(
 
     fun pokelist(): Flow<List<Pokemon>> = localDataSource.getPokemones().mapLatest { it.map { entity -> db2api(entity) } }
 
-    fun getDetail(pid: String): LiveData<PokemonDetail> = Transformations.map(localDataSource.getPokemon(pid)) {
-        it?.let { db2api(it) }
+    fun getDetail(pid: String): Flow<PokemonDetail> = localDataSource.getPokemon(pid).mapLatest {
+        db2api(it)
     }
 
     suspend fun fetchPokemones() {

@@ -19,5 +19,5 @@ interface PokeDAO {
     suspend fun insertDetail(pokemones: PokemonDetailEntity)
 
     @Query("SELECT * FROM poke_detail WHERE id=:pid")
-    fun getPokemon(pid: String): LiveData<PokemonDetailEntity>
+    fun getPokemon(pid: String): Flow<PokemonDetailEntity>
 }
