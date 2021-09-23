@@ -3,7 +3,9 @@ package cl.eme.pokemonesreloaded.data.datasources
 import android.util.Log
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
+import cl.eme.pokemonesreloaded.data.remote.PokeAPI
 import cl.eme.pokemonesreloaded.data.remote.RetrofitClient
+import retrofit2.Retrofit
 
 interface RemoteDataSource {
     suspend fun fetchPokemones(): List<Pokemon>
@@ -11,9 +13,9 @@ interface RemoteDataSource {
     suspend fun fetchDetail(id: String): PokemonDetail?
 }
 
-class RemoteDataSourceImp: RemoteDataSource {
+class RemoteDataSourceImp(private val retrofitInstance: PokeAPI): RemoteDataSource {
     override suspend fun fetchPokemones(): List<Pokemon> {
-        val response = RetrofitClient.retrofitInstance().getPokemones()
+        val response = retrofitInstance.getPokemones()
 
         val a = with(response) {
             when (isSuccessful) {
@@ -36,7 +38,7 @@ class RemoteDataSourceImp: RemoteDataSource {
         // parchamos por culpa de API "·$"·$"%·!
         val pid = id.replace("#", "").toInt() - 1
 
-        val response = RetrofitClient.retrofitInstance().getPokemon(pid.toString())
+        val response = retrofitInstance.getPokemon(pid.toString())
         Log.d("PokeViewModel", "cargando detalle para $pid")
 
         Log.d("PokeViewModel", response.body().toString())

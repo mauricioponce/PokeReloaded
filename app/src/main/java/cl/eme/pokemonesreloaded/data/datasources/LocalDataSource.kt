@@ -1,7 +1,6 @@
 package cl.eme.pokemonesreloaded.data.datasources
 
-import androidx.lifecycle.LiveData
-import cl.eme.pokemonesreloaded.data.db.PokeApplication
+import cl.eme.pokemonesreloaded.data.db.PokeDAO
 import cl.eme.pokemonesreloaded.data.db.PokemonDetailEntity
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
 import kotlinx.coroutines.flow.Flow
@@ -16,9 +15,7 @@ interface LocalDataSource {
     suspend fun insertPokemons(pokemons: List<PokemonEntity>)
 }
 
-class LocalDataSourceImp : LocalDataSource{
-    private val pokeDB = PokeApplication.pokeDb!!.pokeDao()
-
+class LocalDataSourceImp(private val pokeDB: PokeDAO) : LocalDataSource{
     override fun getPokemones(): Flow<List<PokemonEntity>> = pokeDB.getPokemones()
 
     override fun getPokemon(pid: String): Flow<PokemonDetailEntity> = pokeDB.getPokemon(pid)

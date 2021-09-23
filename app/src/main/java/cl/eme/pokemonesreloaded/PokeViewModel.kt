@@ -13,9 +13,7 @@ import cl.eme.pokemonesreloaded.data.pojo.PokemonDetail
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-class PokeViewModel : ViewModel() {
-
-    private val repository = Repository(LocalDataSourceImp(), RemoteDataSourceImp())
+class PokeViewModel(private val repository: Repository) : ViewModel() {
 
     fun pokelist() : LiveData<List<Pokemon>> = repository.pokelist().asLiveData()
 

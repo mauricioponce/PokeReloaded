@@ -2,7 +2,7 @@ package cl.eme.pokemonesreloaded
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.activity.viewModels
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
 
 /**
@@ -44,7 +44,7 @@ import cl.eme.pokemonesreloaded.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    val pokeVM : PokeViewModel by viewModels()
+    val pokeVM : PokeViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
