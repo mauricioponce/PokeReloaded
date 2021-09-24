@@ -28,9 +28,12 @@ class RepositoryImp(
 
     override fun pokelist(): Flow<List<Pokemon>> = localDataSource.getPokemones().mapLatest { it.map { entity -> db2api(entity) } }
 
-    override fun getDetail(pid: String): Flow<PokemonDetail> = localDataSource.getPokemon(pid).mapLatest {
-        db2api(it)
-    }.catch {  }
+    override fun getDetail(pid: String): Flow<PokemonDetail> =
+        localDataSource.getPokemon(pid).mapNotNull {
+            it?.let {
+                db2api(it)
+            }
+        }
 
     override suspend fun fetchPokemones() {
         val pokeList = remoteDataSource.fetchPokemones()
