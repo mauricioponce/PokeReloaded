@@ -2,6 +2,7 @@ package cl.eme.pokemonesreloaded.data
 
 import cl.eme.pokemonesreloaded.data.datasources.LocalDataSource
 import cl.eme.pokemonesreloaded.data.datasources.RemoteDataSource
+import cl.eme.pokemonesreloaded.data.db.PokemonDetailEntity
 import cl.eme.pokemonesreloaded.data.db.PokemonEntity
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import com.google.common.truth.Truth.assertThat
@@ -27,13 +28,14 @@ class RepositoryTest {
 
     private val expectedPokemon = Pokemon("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1")
     private val expectedPokemonEntity = PokemonEntity("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1")
+    private val expectedPokemonDetailEntity = PokemonDetailEntity("pik1", "http://www.false.com/img_1.jpg", "Pokemon 1", listOf("fire"))
 
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
 
-        repository = Repository(localDataSource, remoteDataSource)
+        repository = RepositoryImp(localDataSource, remoteDataSource)
 
         coEvery { localDataSource.insertPokemons(any()) } returns Unit
     }
@@ -44,14 +46,13 @@ class RepositoryTest {
         val expectedList = listOf(expectedPokemon)
         val entitiesList = listOf(expectedPokemonEntity)
 
-        coEvery { localDataSource.getPokemones() } returns flow { emit(entitiesList) }
+        coEvery { localDataSource.getPokemones() } returns flowOf(entitiesList)
         coEvery { remoteDataSource.fetchPokemones() } returns expectedList
 
         // when
         repository.fetchPokemones()
 
         // then
-
         repository.pokelist().collect {
             assertThat(it).isNotNull()
             assertThat(it).hasSize(1)
@@ -64,7 +65,7 @@ class RepositoryTest {
         val expectedList = emptyList<Pokemon>()
 
         coEvery { remoteDataSource.fetchPokemones() } returns expectedList
-        coEvery { localDataSource.getPokemones() } returns flow { emit(emptyList<PokemonEntity>()) }
+        coEvery { localDataSource.getPokemones() } returns flowOf(emptyList())
 
 
         // when
@@ -84,7 +85,7 @@ class RepositoryTest {
         // given
         val entitiesList = listOf(expectedPokemonEntity)
 
-        coEvery { localDataSource.getPokemones() } returns flow { emit(entitiesList) }
+        coEvery { localDataSource.getPokemones() } returns flowOf(entitiesList)
         coEvery { remoteDataSource.fetchPokemones() } throws Exception()
 
         // when
@@ -96,6 +97,38 @@ class RepositoryTest {
                     assertThat(it).hasSize(1)
                 }
             }
+    }
 
+    @Test
+    fun `getDetail happy case`() = runBlocking {
+        // given
+        val id = "pid"
+
+        coEvery { localDataSource.getPokemon(id) } returns flowOf(expectedPokemonDetailEntity)
+
+
+        // when
+        val result = repository.getDetail(id)
+
+        // then
+        result.collect {
+            assertThat(it).isNotNull()
+        }
+    }
+
+    @Test
+    fun `getDetail null`() = runBlocking {
+        // given
+        val id = "pid"
+
+        coEvery { localDataSource.getPokemon(id) } returns flow { null }
+
+        // when
+        val result = repository.getDetail(id)
+
+        // then
+        result.collect {
+            assertThat(it).isNull()
+        }
     }
 }

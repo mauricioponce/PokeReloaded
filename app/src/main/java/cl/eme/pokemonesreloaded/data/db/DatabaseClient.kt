@@ -13,13 +13,3 @@ abstract class PokeDatabase: RoomDatabase() {
 }
 
 
-class PokeApplication: Application() {
-    companion object {
-        var pokeDb: PokeDatabase? = null
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-        pokeDb = Room.databaseBuilder(this, PokeDatabase::class.java, "poke_db").build()
-    }
-}
