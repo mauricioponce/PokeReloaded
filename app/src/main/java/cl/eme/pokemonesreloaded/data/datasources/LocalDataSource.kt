@@ -15,12 +15,12 @@ interface LocalDataSource {
     suspend fun insertPokemons(pokemons: List<PokemonEntity>)
 }
 
-class LocalDataSourceImp(private val pokeDB: PokeDAO) : LocalDataSource{
-    override fun getPokemones(): Flow<List<PokemonEntity>> = pokeDB.getPokemones()
+class LocalDataSourceImp(private val pokeDAO: PokeDAO) : LocalDataSource{
+    override fun getPokemones(): Flow<List<PokemonEntity>> = pokeDAO.getPokemones()
 
-    override fun getPokemon(pid: String): Flow<PokemonDetailEntity?> = pokeDB.getPokemon(pid)
+    override fun getPokemon(pid: String): Flow<PokemonDetailEntity> = pokeDAO.getPokemon(pid)
 
-    override suspend fun insertDetail(detail: PokemonDetailEntity) = pokeDB.insertDetail(detail)
+    override suspend fun insertDetail(detail: PokemonDetailEntity) = pokeDAO.insertDetail(detail)
 
-    override suspend fun insertPokemons(pokemons: List<PokemonEntity>) = pokeDB.insertPokemones(pokemons)
+    override suspend fun insertPokemons(pokemons: List<PokemonEntity>) = pokeDAO.insertPokemones(pokemons)
 }

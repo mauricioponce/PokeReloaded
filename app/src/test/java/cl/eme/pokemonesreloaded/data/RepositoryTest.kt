@@ -11,7 +11,7 @@ import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 import java.lang.Exception
@@ -41,7 +41,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun `getPokemones happy case`() = runBlocking {
+    fun `getPokemones happy case`() = runBlockingTest {
         // given
         val expectedList = listOf(expectedPokemon)
         val entitiesList = listOf(expectedPokemonEntity)
@@ -60,7 +60,7 @@ class RepositoryTest {
     }
 
     @Test
-    fun `getPokemones empty list`() = runBlocking {
+    fun `getPokemones empty list`() = runBlockingTest {
         // given
         val expectedList = emptyList<Pokemon>()
 
@@ -81,7 +81,7 @@ class RepositoryTest {
 
 
     @Test
-    fun `getPokemones error at remote datasource`(): Unit = runBlocking {
+    fun `getPokemones error at remote datasource`() = runBlockingTest {
         // given
         val entitiesList = listOf(expectedPokemonEntity)
 
