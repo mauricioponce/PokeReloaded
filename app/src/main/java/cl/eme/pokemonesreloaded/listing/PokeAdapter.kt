@@ -11,16 +11,11 @@ import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.databinding.PokeItemBinding
 
 class PokeAdapter: ListAdapter<Pokemon, PokeVH>(Pokemon.Companion.DiffCallback) {
-
-    private var pokelist = mutableListOf<Pokemon>()
-
     private val selectedItem = MutableLiveData<Pokemon>()
-
     fun selectedItem(): LiveData<Pokemon> = selectedItem
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeVH {
         val binding = PokeItemBinding.inflate(LayoutInflater.from(parent.context))
-
         return PokeVH(binding)
     }
 
@@ -36,13 +31,13 @@ class PokeAdapter: ListAdapter<Pokemon, PokeVH>(Pokemon.Companion.DiffCallback) 
 
     fun update(ppokelist: List<Pokemon>) {
         Log.d("aa", "update ${ppokelist.size}")
-        pokelist = ppokelist.toMutableList()
         submitList(ppokelist)
     }
 
     fun remove() {
-        pokelist.removeAt(5)
-        update(pokelist)
+        val l = currentList.toMutableList()
+        l.removeAt(4)
+        submitList(l)
     }
 }
 
@@ -52,6 +47,7 @@ class PokeVH(val binding: PokeItemBinding) : RecyclerView.ViewHolder(binding.roo
         binding.textView.text = pokemon.name
     }
 }
+
 /*
 class PokeCallback() : DiffUtil.ItemCallback<Pokemon>() {
     override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
