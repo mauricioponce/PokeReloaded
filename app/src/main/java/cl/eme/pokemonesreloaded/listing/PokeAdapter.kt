@@ -5,13 +5,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import cl.eme.pokemonesreloaded.data.pojo.Pokemon
 import cl.eme.pokemonesreloaded.databinding.PokeItemBinding
 
-class PokeAdapter: RecyclerView.Adapter<PokeVH>() {
+class PokeAdapter: ListAdapter<Pokemon, PokeVH>(Pokemon.Companion.DiffCallback) {
 
-    private var pokelist = listOf<Pokemon>()
+    private var pokelist = mutableListOf<Pokemon>()
 
     private val selectedItem = MutableLiveData<Pokemon>()
 
@@ -24,7 +25,8 @@ class PokeAdapter: RecyclerView.Adapter<PokeVH>() {
     }
 
     override fun onBindViewHolder(holder: PokeVH, position: Int) {
-        val poke = pokelist[position]
+        Log.d("bb", "onBind")
+        val poke = getItem(position)
         holder.bind(poke)
         holder.itemView.setOnClickListener {
             Log.d("PokeAdapter", "elemento seleccionado $poke")
@@ -32,11 +34,15 @@ class PokeAdapter: RecyclerView.Adapter<PokeVH>() {
         }
     }
 
-    override fun getItemCount() = pokelist.size
-
     fun update(ppokelist: List<Pokemon>) {
-        pokelist = ppokelist
-        notifyDataSetChanged()
+        Log.d("aa", "update ${ppokelist.size}")
+        pokelist = ppokelist.toMutableList()
+        submitList(ppokelist)
+    }
+
+    fun remove() {
+        pokelist.removeAt(5)
+        update(pokelist)
     }
 }
 
@@ -46,3 +52,16 @@ class PokeVH(val binding: PokeItemBinding) : RecyclerView.ViewHolder(binding.roo
         binding.textView.text = pokemon.name
     }
 }
+/*
+class PokeCallback() : DiffUtil.ItemCallback<Pokemon>() {
+    override fun areItemsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Pokemon, newItem: Pokemon): Boolean {
+        return oldItem == newItem
+    }
+}
+ */
+
+

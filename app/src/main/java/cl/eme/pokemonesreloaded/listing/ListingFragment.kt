@@ -20,6 +20,8 @@ class ListingFragment : Fragment() {
 
     private val pokeViewModel: PokeViewModel by activityViewModels()
 
+    private lateinit var adapter :PokeAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,7 +30,7 @@ class ListingFragment : Fragment() {
         binding = FragmentListingBinding.inflate(inflater)
 
 
-        val adapter = PokeAdapter()
+        adapter = PokeAdapter()
         binding.pokeList.adapter = adapter
         // OJO, pestaña y ceja -> si no se ve la info en el recyclerview
         binding.pokeList.layoutManager = GridLayoutManager(context, 1)
@@ -50,5 +52,14 @@ class ListingFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.button.setOnClickListener {
+            Log.d("aa", "i will kill a pokemon")
+            adapter.remove()
+        }
     }
 }
